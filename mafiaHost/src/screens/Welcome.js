@@ -10,13 +10,16 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { Container, Header, Content, Button, Icon, Row } from 'native-base';
 import { Fonts } from '../Fonts';  //폰트 넣기 위한 import. 이렇게 뭐 넣기전엔 꼭 cmd에서 react-native link명령어를 입력해주자.
+import Name from './Name'
 
 export default class Welcome extends React.Component {
 
   constructor(props){
     super(props);
-    this.state={time: 10,
-                people: 4}
+    this.state={
+      time: 10,
+      people: 4
+    }
   }
 
   _timeMinus(){ this.state.time > 5 && this.setState({time: this.state.time-1}) };
@@ -69,6 +72,12 @@ export default class Welcome extends React.Component {
             onPress={ this._navigate.bind(this) }>
           <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>확인</Text></Button>
         </View>
+
+        {/*<Name
+          time={this.state.time}
+          people={this.state.people}
+        />*/}
+
       </View>
     )};
 }
