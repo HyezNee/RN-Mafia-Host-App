@@ -11,9 +11,12 @@ import { StyleSheet, Text, View} from 'react-native';
 import { Container, Header, Content, Button, Icon, Row } from 'native-base';
 import { Fonts } from '../Fonts';  //폰트 넣기 위한 import. 이렇게 뭐 넣기전엔 꼭 cmd에서 react-native link명령어를 입력해주자.
 import Name from './Name'
+import { withSetting } from '../contexts/Setting'
 
-export default class Welcome extends React.Component {
-
+// TIP: 클래스를 withSetting으로 덮음
+// 새로운 context를 추가하려면
+// withSetting(withPlaying(class ...)) 와 같이 인자로 계속 추가하면 된다
+export default withSetting(class Welcome extends React.Component {
   constructor(props){
     super(props);
     this.state={
@@ -22,10 +25,16 @@ export default class Welcome extends React.Component {
     }
   }
 
-  _timeMinus(){ this.state.time > 5 && this.setState({time: this.state.time-1}) };
-  _timePlus(){ this.state.time < 20 && this.setState({time: this.state.time+1}) };
-  _peopleMinus(){ this.state.people > 4 && this.setState({people: this.state.people-1}) };
-  _peoplePlus(){ this.state.people < 12 && this.setState({people: this.state.people+1}) };
+  // _timeMinus(){ this.state.time > 5 && this.setState({time: this.state.time-1}) };
+  // _timePlus(){ this.state.time < 20 && this.setState({time: this.state.time+1}) };
+  // _peopleMinus(){ this.state.people > 4 && this.setState({people: this.state.people-1}) };
+  // _peoplePlus(){ this.state.people < 12 && this.setState({people: this.state.people+1}) };
+
+  // TIP: 이제 context 안에 있는 값을 불러오고, 설정 또한 그렇게 한다
+  _newTimeMinus(){ this.props.settings.time > 5 && this.props.onChangeSetting('time', this.props.settings.time - 1) };
+  _newTimePlus(){ this.props.settings.time < 20 && this.props.onChangeSetting('time', this.props.settings.time + 1) };
+  _newPeopleMinus(){ this.props.settings.people > 4 && this.props.onChangeSetting('people', this.props.settings.people - 1) };
+  _newPeoplePlus(){ this.props.settings.people < 12 && this.props.onChangeSetting('people', this.props.settings.people + 1) };
   
   _navigate(){ this.props.navigation.navigate('nameScreen') };
 
@@ -42,28 +51,28 @@ export default class Welcome extends React.Component {
         <View Time style={styles.buttons}>
           <Button light peopleMinus
             style={styles.PMbutton}
-            onPress={this._timeMinus.bind(this)}>
+            onPress={this._newTimeMinus.bind(this)}>
               <Text style={styles.textInBtn}>-</Text></Button>
           <View numPeople style={styles.NUMbutton}>
             <Text style={styles.textInBtn}>{time}초</Text>
           </View>
           <Button light peoplePlus
             style={styles.PMbutton}
-            onPress={this._timePlus.bind(this)}>
+            onPress={this._newTimePlus.bind(this)}>
               <Text style={styles.textInBtn}>+</Text></Button>
         </View>
         <Text>참 여 인 원 수</Text>
         <View People style={styles.buttons}>
           <Button light peopleMinus
             style={styles.PMbutton}
-            onPress={this._peopleMinus.bind(this)}>
+            onPress={this._newPeopleMinus.bind(this)}>
               <Text style={styles.textInBtn}>-</Text></Button>
           <View numPeople style={styles.NUMbutton}>
             <Text style={styles.textInBtn}>{people}명</Text>
           </View>
           <Button light peoplePlus
             style={styles.PMbutton}
-            onPress={this._peoplePlus.bind(this)}>
+            onPress={this._newPeoplePlus.bind(this)}>
               <Text style={styles.textInBtn}>+</Text></Button>
         </View>
         <View OK style={styles.buttons}>
@@ -72,15 +81,9 @@ export default class Welcome extends React.Component {
             onPress={ this._navigate.bind(this) }>
           <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>확인</Text></Button>
         </View>
-
-        {/*<Name
-          time={this.state.time}
-          people={this.state.people}
-        />*/}
-
       </View>
     )};
-}
+})
 
 const styles = StyleSheet.create({
   container: {
