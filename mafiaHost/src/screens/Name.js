@@ -3,17 +3,20 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default class Name extends React.Component {
-    /*constructor(props){
-        super(props)
-    }*/
+// TIP: 클래스를 withSetting으로 덮음
+// 새로운 context를 추가하려면
+// withSetting(withPlaying(class ...)) 와 같이 인자로 계속 추가하면 된다
+export default withSetting(class Name extends React.Component {
+    constructor(props){
+        super(props);
+    }
 
     render() {
-        const time = this.props.navigation.getParam('time');    // 전역변수로 수정 필요
-        const people = this.props.navigation.getParam('people');
+        const time=this.props.settings.time;
+        const people=this.props.settings.people;
         let edit=[];
 
-        for(let i=0;i<people;i++){    // each child in a list should have a unique key prop 이라는 warning 뜸. key를 어떻게 넣지????!
+        for(let i=0;i<people;i++){
             edit.push(
                 <ListItem>
                     <TouchableOpacity
@@ -24,7 +27,7 @@ export default class Name extends React.Component {
             )
         }
 
-        return(
+        return (
             <View style={styles.container}>
                 <Image
                 style={{height: '60%', width: '60%', resizeMode: 'contain'}}
@@ -34,9 +37,9 @@ export default class Name extends React.Component {
                     {edit}
                 </List>
             </View>
-        )};
-
-}
+        )
+    };
+})
 
 const styles=StyleSheet.create({
     container: {
