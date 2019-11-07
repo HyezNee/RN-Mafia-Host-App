@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
+import _ from 'lodash';
 
 // TIP: 클래스를 withSetting으로 덮음
 // 새로운 context를 추가하려면
@@ -19,10 +20,12 @@ export default withSetting(class Name extends React.Component {
 
         for(let i=0;i<people;i++){
             edit.push(
-                <ListItem>
-                    <TouchableOpacity
-                    style={styles.name}>
-                        <Text style={{color: '#000'}}>터치하여 이름을 추가/수정해주세요.</Text>
+                <ListItem style={styles.name}>
+                    <TouchableOpacity style={{ justifyContent: 'center', width: '100%', height: '100%' }}>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <Text style={styles.alphabet}>{String.fromCharCode('A'.charCodeAt() + i)}</Text>
+                            <Text style={{color: '#000'}}>  터치하여 이름을 추가/수정해주세요.</Text>
+                        </View>
                     </TouchableOpacity>
                 </ListItem>
             )
@@ -31,15 +34,14 @@ export default withSetting(class Name extends React.Component {
         return (
             <View style={styles.container}>
                 <View
-                style={styles.names}>
+                style={styles.nameBox}>
                     <Image
                     style={{height: '60%', width: '60%', resizeMode: 'contain'}}
                     source={require('../../assets/img/seats.png')}/>
                     <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>
                 </View>
-                <List
-                style={styles.names}>
-                    {edit}
+                <List style={styles.nameBox}>
+                    {_.map(edit, el => el)}
                 </List>
             </View>
         )
@@ -54,7 +56,7 @@ const styles=StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-    names: {
+    nameBox: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
@@ -63,9 +65,18 @@ const styles=StyleSheet.create({
         width: '100%',
     },
     name: {
-        justifyContent: 'flex-start',
-        backgroundColor: '#9ae0c4',
-        height: '30%',
+        // justifyContent: 'flex-start',
+        // backgroundColor: '#9ae0c4',
+        height: 60,
         width: '100%',
+    },
+    alphabet: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        backgroundColor: '#9ae0c4',
+        width: '15%',
+        height: '70%',
+        borderRadius: 100,
     }
 })
