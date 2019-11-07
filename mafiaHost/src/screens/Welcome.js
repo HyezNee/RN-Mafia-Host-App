@@ -18,10 +18,10 @@ import { withSetting } from '../contexts/Setting'
 export default withSetting(class Welcome extends React.Component {
   constructor(props){
     super(props);
-    this.state={
-      time: 10,
-      people: 4
-    }
+    // this.state={  // 인당 선택 시간과 인원 수의 초기 값
+    //   time: 10,
+    //   people: 4
+    // }
   }
 
   // _timeMinus(){ this.state.time > 5 && this.setState({time: this.state.time-1}) };
@@ -35,15 +35,16 @@ export default withSetting(class Welcome extends React.Component {
   _newPeopleMinus(){ this.props.settings.people > 4 && this.props.onChangeSetting('people', this.props.settings.people - 1) };
   _newPeoplePlus(){ this.props.settings.people < 12 && this.props.onChangeSetting('people', this.props.settings.people + 1) };
   
-  _navigate(){ this.props.navigation.navigate('nameScreen', {
-                time: this.state.time,
-                people: this.state.people
-              }
+  _navigate(){ this.props.navigation.navigate('nameScreen'
+              // , {
+              //   time: this.state.time,
+              //   people: this.state.people
+              // }
   )};
 
   render() {
 
-    const {time, people}=this.state
+    const {time, people}=this.props.settings
 
     return (
       <View style={styles.container}>

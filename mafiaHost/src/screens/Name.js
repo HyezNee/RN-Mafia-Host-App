@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { withSetting } from '../contexts/Setting'
 
 // TIP: 클래스를 withSetting으로 덮음
 // 새로운 context를 추가하려면
@@ -29,11 +30,15 @@ export default withSetting(class Name extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Image
-                style={{height: '60%', width: '60%', resizeMode: 'contain'}}
-                source={require('../../assets/img/seats.png')}/>
-                <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>
-                <List>
+                <View
+                style={styles.names}>
+                    <Image
+                    style={{height: '60%', width: '60%', resizeMode: 'contain'}}
+                    source={require('../../assets/img/seats.png')}/>
+                    <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>
+                </View>
+                <List
+                style={styles.names}>
                     {edit}
                 </List>
             </View>
@@ -54,11 +59,11 @@ const styles=StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '10%',
+        height: '50%',
         width: '100%',
     },
     name: {
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: '#9ae0c4',
         height: '30%',
         width: '100%',
