@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import welcomeScreen from './Welcome'
 import nameScreen from './Name';
+import jobScreen from './Job';
 
 const MyApp = createStackNavigator(
     {
@@ -14,6 +15,12 @@ const MyApp = createStackNavigator(
         },
         nameScreen: {
             screen: nameScreen,
+            navigationOptions: ({navigation}) => ({
+                header: null,   // 상단 탭 제거
+            }),
+        },
+        jobScreen: {
+            screen: jobScreen,
             navigationOptions: ({navigation}) => ({
                 header: null,   // 상단 탭 제거
             }),

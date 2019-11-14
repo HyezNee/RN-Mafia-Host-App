@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Button, List, ListItem } from 'native-base';
 import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
-import { List, ListItem } from 'native-base';
+import { Button, List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
 import _ from 'lodash';
@@ -17,11 +15,16 @@ export default withSetting(class Name extends React.Component {
             text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
         }
     }
+
     namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
     confirmTextInput = text => { // 텍스트 입력이 끝날시 실행되는 함수
         this.namesInput.push(text); 
         console.log(this.namesInput);
     }
+
+    _navigate(){ this.props.navigation.navigate('jobScreen'    // 다음 화면으로 넘어가는 함수
+    )}
+
     render() {
         const time=this.props.settings.time;
         const people=this.props.settings.people;
@@ -42,11 +45,10 @@ export default withSetting(class Name extends React.Component {
 
         return (
             <View style={styles.container}>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <Button OK
-                        style={styles.OK}>
-                        <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>다음</Text></Button>
-                </View>
+                <Button OK
+                    style={styles.OK}>
+                    <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}
+                        onPress={this._navigate.bind(this)}>다음</Text></Button>
                 <View
                 style={styles.nameBox}>
                     <Image
@@ -59,7 +61,7 @@ export default withSetting(class Name extends React.Component {
                 </List>
             </View>
         )
-    };
+    }
 })
 
 
@@ -98,10 +100,11 @@ const styles=StyleSheet.create({
         backgroundColor: '#fff',
         borderColor: '#8ac9b0',
         borderWidth: 1,
-        width: '10%',
-        height: '40%',
+        width: '13%',
+        height: '5%',
         justifyContent: 'center',
-        marginLeft: '3%',
+        marginTop: '3%',
+        marginLeft: '83%',
         marginRight: '3%',
     },
     textInBtn:{
