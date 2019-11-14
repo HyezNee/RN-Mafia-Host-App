@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { List, ListItem } from 'native-base';
+import { Button, List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
 import _ from 'lodash';
@@ -33,6 +33,11 @@ export default withSetting(class Name extends React.Component {
 
         return (
             <View style={styles.container}>
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <Button OK
+                        style={styles.OK}>
+                        <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>다음</Text></Button>
+                </View>
                 <View
                 style={styles.nameBox}>
                     <Image
@@ -78,5 +83,19 @@ const styles=StyleSheet.create({
         width: '15%',
         height: '70%',
         borderRadius: 100,
-    }
+    },
+    OK:{
+        backgroundColor: '#fff',
+        borderColor: '#8ac9b0',
+        borderWidth: 1,
+        width: '10%',
+        height: '40%',
+        justifyContent: 'center',
+        marginLeft: '3%',
+        marginRight: '3%',
+    },
+    textInBtn:{
+        fontSize: 22,
+        textAlign: 'center',
+    },
 })
