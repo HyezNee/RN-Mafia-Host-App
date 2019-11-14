@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button, List, ListItem } from 'native-base';
+import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
+import { List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
 import _ from 'lodash';
@@ -11,22 +13,29 @@ import _ from 'lodash';
 export default withSetting(class Name extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
+        }
     }
-
+    namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
+    confirmTextInput = text => { // 텍스트 입력이 끝날시 실행되는 함수
+        this.namesInput.push(text); 
+        console.log(this.namesInput);
+    }
     render() {
         const time=this.props.settings.time;
         const people=this.props.settings.people;
         let edit=[];
-
         for(let i=0;i<people;i++){
             edit.push(
                 <ListItem style={styles.name}>
-                    <TouchableOpacity style={{ justifyContent: 'center', width: '100%', height: '100%' }}>
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            <Text style={styles.alphabet}>{String.fromCharCode('A'.charCodeAt() + i)}</Text>
-                            <Text style={{color: '#000'}}>  터치하여 이름을 추가/수정해주세요.</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <Text style={styles.alphabet}>{String.fromCharCode('A'.charCodeAt() + i)}</Text>
+                    <TextInput
+                        style={{ justifyContent: 'center', width: '80%', height: '100%' }}
+                        placeholder = "터치하여 이름을 추가/수정 해 주세요."
+                        onChangeText = {(text) => this.setState({text})}  
+                        onEndEditing = {() => this.confirmTextInput(this.state.text)}> 
+                    </TextInput>
                 </ListItem>
             )
         }
@@ -53,6 +62,7 @@ export default withSetting(class Name extends React.Component {
     };
 })
 
+
 const styles=StyleSheet.create({
     container: {
         flex: 1,
@@ -72,7 +82,7 @@ const styles=StyleSheet.create({
     name: {
         // justifyContent: 'flex-start',
         // backgroundColor: '#9ae0c4',
-        height: 60,
+        // height: 60,
         width: '100%',
     },
     alphabet: {
@@ -81,7 +91,7 @@ const styles=StyleSheet.create({
         textAlign: 'center',
         backgroundColor: '#9ae0c4',
         width: '15%',
-        height: '70%',
+        height: '50%',
         borderRadius: 100,
     },
     OK:{
