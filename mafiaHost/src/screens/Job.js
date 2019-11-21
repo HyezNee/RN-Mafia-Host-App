@@ -11,6 +11,6 @@ export default withSetting(class Job extends React.Component {
     }
 
     render() {
-        return()
+        return(<View></View>)
     }
 })
