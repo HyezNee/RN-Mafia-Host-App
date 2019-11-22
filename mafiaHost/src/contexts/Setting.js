@@ -9,6 +9,7 @@ const SettingProvider = props => {
     const [state, setState] = useState({
         time: 10,
         people: 4,
+        names: [],
     });
 
     // TIP: context의 값을 바꿔주는 함수.

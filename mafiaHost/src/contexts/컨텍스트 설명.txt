@@ -1,0 +1,198 @@
+import React, { useState } from 'react';
+import _ from 'lodash';
+
+const SettingContext = React.createContext({ option: 1 })
+
+값을 넘겨주고 싶다
+<Context>
+    <원하는 컴포넌트 />
+</Context>
+
+값을 주고싶다. 설정하고 싶다.
+Context안에 구현
+
+<A>
+    <B>
+        <C>
+            ..
+                <Context>
+                    <F></F>
+                </Context>
+                
+        </C>
+    </B>
+</A>
+{/* <A> */}
+    <G>
+        <H>
+            <Context>
+                <Stringsdf />
+            </Context>
+        </H>
+    </G>
+// </A>
+<J>
+    <context>
+    <K></K>
+    </context>
+</J>
+
+class A {
+    static A instance
+
+    private construtor 
+        A = new A();
+
+
+}
+
+A.instance.ABC
+
+props
+state
+
+
+구현하는 방법
+<Context>
+    <컴포넌트></컴포넌트>
+</Context>
+
+<A>
+    <B></B>
+</A>
+
+// 외부에 onChangeSetting을 보내놔
+// 외부에서 onChangeSetting을 호출해
+// SettingProvider의 onChangeSetting이 호출되겠지
+// onChangeSetting안의 setState가 호출이 돼
+// 그러면 스테이트가 바뀌니까 re-render
+// 그러면 스테이트가 바뀐 상태로 업데이트를 하고
+// 리턴을 할 때 넘겨주는 데이터가 바뀌겠지
+// 그러면 자식이 받은 props의 내용이 바뀌겠지
+// 그러면 자식은 props가 바뀌었으니까 또 re-render
+// 결국 자식은 바뀐 값으로 업데이트 된다.
+
+
+// case 1: 새로운 값을 전역으로 써야 해. 예) 마피아 수
+// 1번의 useState의 중괄호 안에 새로 추가
+
+// case 2: 만약에 새로운 오브젝트(또는 배열이나 기타 변수)를 내보내야 할 때
+// 2번과 흡사한. 스테이트를 바꿔주는 함수를 만들어.
+// 3번에 새로운 key를 추가해
+// 4번에 새로운 key를 적용해
+
+const SettingProvider = props => {
+    // context 초기값을 제공하는 App 컴포넌트
+    // state를 쓰는 이유: 변경 되었을 때 re-render를 하기 위해.
+    // TIP: useState안에 초기값 넣기
+
+    // 1번
+    const [state, setState] = useState({
+        time: 10,
+        people: 4,
+        // mafia: 7,
+    });
+
+    // 얘가 새로운 정보
+    const [gameInfo, setGameInfo] = useState({
+        '1': {
+            mafia: 2,
+            police: 2
+        }
+    });
+
+    // TIP: context의 값을 바꿔주는 함수.
+    // 이 함수를 외부로 보내는 이유: setState가 호출될만한 상황을 만들기 때문에
+    // 바꿀 설정의 key와 값(value)
+    
+    // 2번
+    const onChangeSetting = (key, value) => {
+        // 기존의 state에 key: value를 덮어씌운다.
+        setState({ ...state, [key]: value })
+    }
+
+    // TIP: provider의 value 안에 넘기고 싶은 값을 넣는다.
+    // 이제 다른 곳에서 this.props.settings를 불러오면 이 클래스의 state를 가져온다
+    
+    // 3번
+    return (
+        <SettingContext.Provider value={{_gameInfo: gameInfo, settings: state, onChangeSetting }}>
+            {props.children}
+        </SettingContext.Provider>
+    );
+}
+
+<SettingProvider>
+    <ASFADF></ASFADF>
+</SettingProvider>
+
+
+
+<A>
+    <B>
+        <C />
+    </B>
+    <D>
+
+    </D>
+</A>
+
+A의 입장: A의 children은 B, D야
+B의 입장: B의 children은 C야
+
+
+<MyApp>
+    (withSettings)
+        <Welcome settings={???}>
+            this.props.settings
+            settings가 필요해 버리구요?!
+            ~~~~ 
+        </Welcome>
+    )
+</MyApp>
+
+<MyApp>
+    <SettingContext.Consumer>
+        <Welcome
+            {...props} 
+            settings={settings} 
+            _gameInfo={gameInfo}
+            onChangeSetting={onChangeSetting}
+        >
+            어 그럼 props에 setting가 들어왔네?
+            this.props.settings
+        </Welcome>
+    </SettingContext.Consumer>
+</MyApp>
+
+
+export default SettingProvider
+
+// WrappedComponent가 class Welcome
+{/* <WrappedComponent> */}
+{/* <Welcome settings={settings}> */}
+export const withSetting = WrappedComponent => props => {
+    return (
+        <SettingContext.Consumer>
+            {/* TIP: 위의 provider안에 넘겨준 값들을 가져온다. WrappedComponent안에도 똑같이 넣어줘야함 */}
+            {/* 4번 */}
+            {({ settings, _gameInfo, onChangeSetting }) => 
+                <WrappedComponent 
+                    {...props} 
+                    settings={settings} 
+                    _gameInfo={gameInfo}
+                    onChangeSetting={onChangeSetting}
+                />
+            }
+        </SettingContext.Consumer>
+    )
+}
+
+<SettingProvider>
+    <A></A>
+</SettingProvider>
+
+A를 개발을 할 때
+render() {
+    const { settings, _gameInfo, onChangeSetting } = this.props
+}

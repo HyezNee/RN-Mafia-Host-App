@@ -11,6 +11,12 @@ export default withSetting(class Job extends React.Component {
     }
 
     render() {
-        return(<View></View>)
+        const names=this.props.settings.names
+        // let testText=[]
+
+        // for(let i=0;i<names.length;i++){
+        //     testText.push(names[i])
+        // }
+        return(<Text>{ names }</Text>)
     }
 })

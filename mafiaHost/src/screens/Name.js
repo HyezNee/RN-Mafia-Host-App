@@ -18,17 +18,18 @@ export default withSetting(class Name extends React.Component {
 
     namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
     confirmTextInput = text => { // 텍스트 입력이 끝날시 실행되는 함수
-        this.namesInput.push(text); 
-        console.log(this.namesInput);
+        this.props.onChangeSetting('names', [...this.props.settings.names, text])
+        console.log(this.props.settings.names);
     }
 
     _navigate(){ this.props.navigation.navigate('jobScreen'    // 다음 화면으로 넘어가는 함수
     )}
 
     render() {
-        const time=this.props.settings.time;
-        const people=this.props.settings.people;
+        const { time, people } = this.props.settings
+        //const names = this.props.settings.names
         let edit=[];
+
         for(let i=0;i<people;i++){
             edit.push(
                 <ListItem style={styles.name}>
