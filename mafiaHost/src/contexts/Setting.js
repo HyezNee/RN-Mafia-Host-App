@@ -10,6 +10,9 @@ const SettingProvider = props => {
         time: 10,
         people: 4,
         names: [],
+        mafia: 0,
+        police: 0,
+        doctor: 0,
     });
 
     // TIP: context의 값을 바꿔주는 함수.
