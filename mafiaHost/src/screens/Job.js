@@ -25,6 +25,7 @@ export default withSetting(class Job extends React.Component {
 
     render() {
         const {names, people, mafia, police, doctor} = this.props.settings
+        console.log(names);
         // let testText=[]
 
         // for(let i=0;i<names.length;i++){

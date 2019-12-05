@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, ScrollView} from 'react-native';
 import { Button, List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
@@ -12,18 +12,22 @@ export default withSetting(class Name extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            localName: [],
             text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
         }
     }
 
-    namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
-    confirmTextInput = text => { // 텍스트 입력이 끝날시 실행되는 함수
-        this.props.onChangeSetting('names', [...this.props.settings.names, text])
-        console.log(this.props.settings.names);
+    // namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
+    confirmTextInput = idx => { // 텍스트 입력이 끝날시 실행되는 함수
+        // this.props.onChangeSetting('names', [...this.props.settings.names, text])   // 전역변수 names[]값 수정(새 text가 넣어진 채로)
+        // 
+        this.state.localName[idx] = this.state.text;
     }
 
-    _navigate(){ this.props.navigation.navigate('jobScreen'    // 다음 화면으로 넘어가는 함수
-    )}
+    _navigate(){
+        this.props.onChangeSetting('names', this.state.localName)
+        this.props.navigation.navigate('jobScreen')    // 다음 화면으로 넘어가는 함수
+    }
 
     render() {
         const { time, people } = this.props.settings
@@ -38,7 +42,7 @@ export default withSetting(class Name extends React.Component {
                         style={{ justifyContent: 'center', width: '80%', height: '100%' }}
                         placeholder = "터치하여 이름을 추가/수정 해 주세요."
                         onChangeText = {(text) => this.setState({text})}  
-                        onEndEditing = {() => this.confirmTextInput(this.state.text)}> 
+                        onEndEditing = {() => this.confirmTextInput(i)}> 
                     </TextInput>
                 </ListItem>
             )
@@ -46,20 +50,19 @@ export default withSetting(class Name extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Button OK
-                    style={styles.OK}>
-                    <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}
-                        onPress={this._navigate.bind(this)}>다음</Text></Button>
-                <View
-                style={styles.nameBox}>
-                    <Image
-                    style={{height: '60%', width: '60%', resizeMode: 'contain'}}
-                    source={require('../../assets/img/seats.png')}/>
-                    <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>
-                </View>
-                <List style={styles.nameBox}>
-                    {_.map(edit, el => el)}
-                </List>
+                <ScrollView style={styles.ScrollView}>
+                    <Button OK
+                        style={styles.OK} onPress={this._navigate.bind(this)}>
+                        <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>다음</Text></Button>
+                    <View>
+                        <Image
+                        source={require('../../assets/img/seats.png')}/>
+                        <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>
+                    </View>
+                    <List style={styles.nameBox}>
+                        {_.map(edit, el => el)}
+                    </List>
+                </ScrollView>
             </View>
         )
     }
@@ -98,12 +101,14 @@ const styles=StyleSheet.create({
         borderRadius: 100,
     },
     OK:{
+        flex:0.1,
         backgroundColor: '#fff',
         borderColor: '#8ac9b0',
         borderWidth: 1,
         width: '13%',
-        height: '5%',
+        // height: '5%',
         justifyContent: 'center',
+        paddingTop: '6%',
         marginTop: '3%',
         marginLeft: '83%',
         marginRight: '3%',
@@ -112,4 +117,7 @@ const styles=StyleSheet.create({
         fontSize: 22,
         textAlign: 'center',
     },
+    ScrollView:{
+        marginHorizontal: 20,
+    }
 })
