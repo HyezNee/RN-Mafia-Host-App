@@ -10,6 +10,7 @@ const SettingProvider = props => {
         time: 10,
         people: 4,
         names: [],
+        jobs: [],
         mafia: 0,
         police: 0,
         doctor: 0,

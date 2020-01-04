@@ -22,10 +22,46 @@ export default withSetting(class Job extends React.Component {
         else
             return false;
     }
+    
+    _randomizeJob(){ // 랜덤하게 직업 배정해주는 함수
+        let { people, mafia, police, doctor, jobs} = this.props.settings;
+
+        for(var i = 0; i < people; i++){
+            jobs[i] = 'citizen';
+        }
+        for(var i = 0; i < mafia; i++){
+            var rand = Math.floor(Math.random() * people);
+            if(jobs[rand] == 'citizen')
+                jobs[rand] = 'mafia';
+            else
+                i--;
+        }
+        for(var i = 0; i < police; i++){
+            var rand = Math.floor(Math.random() * people);
+            if(jobs[rand] == 'citizen')
+                jobs[rand] = 'police';
+            else
+                i--;
+        }
+        for(var i = 0; i < doctor; i++){
+            var rand = Math.floor(Math.random() * people);
+            if(jobs[rand] == 'citizen')
+                jobs[rand] = 'doctor';
+            else
+                i--;
+        }
+        this.props.onChangeSetting('jobs', jobs);
+        console.log(this.props.settings.jobs);
+    }
+
+    _navigate(){ 
+        this._randomizeJob();
+        this.props.navigation.navigate('checkScreen'      // 다음 화면으로 넘어가는 함수
+    )}
 
     render() {
         const {names, people, mafia, police, doctor} = this.props.settings
-        console.log(names);
+        // console.log(names);
         // let testText=[]
 
         // for(let i=0;i<names.length;i++){
@@ -97,7 +133,7 @@ export default withSetting(class Job extends React.Component {
                 <View OK style={styles.buttons}>
                 <Button OK
                     style={styles.OK}
-                    // onPress={ this._navigate.bind(this) }
+                        onPress={ this._navigate.bind(this) }
                     >
                 <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>확인</Text></Button>
                 </View>
@@ -158,7 +194,7 @@ const styles = StyleSheet.create({
         borderColor: '#8ac9b0',
         borderWidth: 1,
         width: '20%',
-        height: '28%',
+        height: '50%',
         justifyContent: 'center',
         marginLeft: '3%',
         marginRight: '3%',
