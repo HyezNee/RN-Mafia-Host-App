@@ -27,26 +27,26 @@ export default withSetting(class Job extends React.Component {
         let { people, mafia, police, doctor, jobs} = this.props.settings;
 
         for(var i = 0; i < people; i++){
-            jobs[i] = 'citizen';
+            jobs[i] = '시민';
         }
         for(var i = 0; i < mafia; i++){
             var rand = Math.floor(Math.random() * people);
-            if(jobs[rand] == 'citizen')
-                jobs[rand] = 'mafia';
+            if(jobs[rand] == '시민')
+                jobs[rand] = '마피아';
             else
                 i--;
         }
         for(var i = 0; i < police; i++){
             var rand = Math.floor(Math.random() * people);
-            if(jobs[rand] == 'citizen')
-                jobs[rand] = 'police';
+            if(jobs[rand] == '시민')
+                jobs[rand] = '경찰';
             else
                 i--;
         }
         for(var i = 0; i < doctor; i++){
             var rand = Math.floor(Math.random() * people);
-            if(jobs[rand] == 'citizen')
-                jobs[rand] = 'doctor';
+            if(jobs[rand] == '시민')
+                jobs[rand] = '의사';
             else
                 i--;
         }
