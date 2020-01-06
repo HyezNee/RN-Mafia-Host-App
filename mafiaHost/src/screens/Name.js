@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, ScrollView, Alert} from 'react-native';
 import { Button, List, ListItem } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withSetting } from '../contexts/Setting'
@@ -18,16 +18,40 @@ export default withSetting(class Name extends React.Component {
     }
 
     // namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
-    confirmTextInput = idx => { // 텍스트 입력이 끝날시 실행되는 함수
-        // this.props.onChangeSetting('names', [...this.props.settings.names, text])   // 전역변수 names[]값 수정(새 text가 넣어진 채로)
-        // 
-        this.state.localName[idx] = this.state.text;
-    }
+    // confirmTextInput = idx => { // 텍스트 입력이 끝날시 실행되는 함수
+    //     // this.props.onChangeSetting('names', [...this.props.settings.names, text])   // 전역변수 names[]값 수정(새 text가 넣어진 채로)
+    //     // 
+    //     this.state.localName[idx] = this.state.text;
+    //     this.setState({
+    //         text: ''
+    //     })
+    // }
 
+    showAlert = () => {
+        Alert.alert('알림','모든 이름을 입력해주세요!',[{text: '확인'}])
+    }
+    typingText = (text,i) => {        
+        let arr = this.state.localName;
+        arr[i] = text;
+        this.setState({
+            localName: arr
+        })
+        console.log(this.state.localName);
+    }
     _navigate(){
         this.props.onChangeSetting('names', this.state.localName)
-        this.props.navigation.navigate('jobScreen')    // 다음 화면으로 넘어가는 함수
+        console.log(this.props.settings.names)
+        if(this.props.settings.names.length == this.props.settings.people){
+            if(!this.props.settings.names.includes(""))
+                this.props.navigation.navigate('jobScreen')    // 다음 화면으로 넘어가는 함수
+            else
+                this.showAlert();   
+        }
+        else
+            this.showAlert();   
+
     }
+
 
     render() {
         const { time, people } = this.props.settings
@@ -36,13 +60,15 @@ export default withSetting(class Name extends React.Component {
 
         for(let i=0;i<people;i++){
             edit.push(
-                <ListItem style={styles.name}>
+                <ListItem style={styles.name} key ={i}> 
+                {/* key를 추가해서 에러메세지 제거. https://codingmania.tistory.com/292 */}
                     <Text style={styles.alphabet}>{String.fromCharCode('A'.charCodeAt() + i)}</Text>
                     <TextInput
                         style={{ justifyContent: 'center', width: '80%', height: '100%' }}
                         placeholder = "터치하여 이름을 추가/수정 해 주세요."
-                        onChangeText = {(text) => this.setState({text})}  
-                        onEndEditing = {() => this.confirmTextInput(i)}> 
+                        onChangeText = {(text)=>{this.typingText(text,i)}}> 
+                        {/* 이름 입력 후 키보드에서 완료를 누르지 않아도 저장됨 */}
+                        {/* onEndEditing = {() => this.confirmTextInput(i)}> */}
                     </TextInput>
                 </ListItem>
             )
