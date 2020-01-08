@@ -80,7 +80,7 @@ export default withSetting(class Name extends React.Component {
                     <Button OK
                         style={styles.OK} onPress={this._navigate.bind(this)}>
                         <Text style={styles.textInBtn} style={{color: '#8ac9b0'}}>다음</Text></Button>
-                    <View>
+                    <View style={{alignItems: 'center'}}>
                         <Image
                         source={require('../../assets/img/seats.png')}/>
                         <Text>A 사람을 기준으로 반시계방향으로 돌아가며 이름을 입력 해 주세요.</Text>

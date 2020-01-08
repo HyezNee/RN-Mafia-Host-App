@@ -15,7 +15,7 @@ export default withSetting(class Job extends React.Component {
     _doctorMinus(){ this.props.settings.doctor > 0 && this.props.onChangeSetting('doctor', this.props.settings.doctor - 1) };
     _doctorPlus(){ this._ifJobCanAdded() && this.props.onChangeSetting('doctor', this.props.settings.doctor + 1) }; 
 
-    _ifJobCanAdded(){
+    _ifJobCanAdded(){   // 각 직업의 증가 조건
         var {people, mafia, police, doctor} = this.props.settings
         if(mafia + police + doctor < people) //총 인원수보다 많이 설정할수는 없음. 이 밑에 원하는 조건을 더 추가하는 식으로 구현하자!!
             return true;
@@ -31,9 +31,9 @@ export default withSetting(class Job extends React.Component {
         }
         for(var i = 0; i < mafia; i++){
             var rand = Math.floor(Math.random() * people);
-            if(jobs[rand] == '시민')
+            if(jobs[rand] == '시민')    // rand 돌려서 해당 인덱스 마피아로 바꾸기
                 jobs[rand] = '마피아';
-            else
+            else    // 이미 시민 외 직업이 정해진 경우
                 i--;
         }
         for(var i = 0; i < police; i++){

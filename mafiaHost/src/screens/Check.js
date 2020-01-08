@@ -56,7 +56,7 @@ class JobCard extends Component{
                 </View>
 
                 <View style = { styles.jobCard }>
-                    <TouchableHighlight underlayColor = {'red'}  onPress = {this.showJobCard} onHideUnderlay = {this.hideJobCard }>
+                    <TouchableHighlight underlayColor = {'#9ae0c4'}  onPress = {this.showJobCard} onHideUnderlay = {this.hideJobCard }>
                         <View style = {{borderWidth: 1, minWidth:'70%', minHeight:'70%', alignItems: "center", justifyContent : "center"}}>
                             {this.state.touched &&  // 위 view 영역이 터치되면 touched가 true가 되서 아래 텍스트가 보임.
                             <View style = {{alignItems: "center"}}>
@@ -85,7 +85,7 @@ export default withSetting(class Check extends React.Component{
     }
     render(){
         return(
-            <JobCard 
+            <JobCard // 여기서 JobCard에 정보 넘김
                 jobs = { this.props.settings.jobs }
                 names = { this.props.settings.names }
                 people = { this.props.settings.people }
