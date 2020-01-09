@@ -12,11 +12,11 @@ export default withSetting(class Name extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            localName: [],
+            // localName: [],
             text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
         }
+        this.localName= [];
     }
-
     // namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
     // confirmTextInput = idx => { // 텍스트 입력이 끝날시 실행되는 함수
     //     // this.props.onChangeSetting('names', [...this.props.settings.names, text])   // 전역변수 names[]값 수정(새 text가 넣어진 채로)
@@ -31,24 +31,32 @@ export default withSetting(class Name extends React.Component {
         Alert.alert('알림','모든 이름을 입력해주세요!',[{text: '확인'}])
     }
     typingText = (text,i) => {        
-        let arr = this.state.localName;
-        arr[i] = text;
-        this.setState({
-            localName: arr
-        })
-        console.log(this.state.localName);
+        // let arr = this.state.localName;
+        // arr[i] = text;
+        // this.setState({
+            //     localName: arr
+            // })
+        // console.log(this.state.localName);
+        this.localName[i] = text;
+        this.props.onChangeSetting('names', this.localName);
+
     }
     _navigate(){
-        this.props.onChangeSetting('names', this.state.localName)
+        // this.props.onChangeSetting('names', this.state.localName);
         console.log(this.props.settings.names)
         if(this.props.settings.names.length == this.props.settings.people){
-            if(!this.props.settings.names.includes(""))
+            console.log("1if");
+            if(!this.props.settings.names.includes("")){
+                console.log("2if");
                 this.props.navigation.navigate('jobScreen')    // 다음 화면으로 넘어가는 함수
+            }
             else
                 this.showAlert();   
         }
-        else
+        else{
+            console.log(this.props.settings.names.length + "," + this.props.settings.people );
             this.showAlert();   
+        }
 
     }
 
