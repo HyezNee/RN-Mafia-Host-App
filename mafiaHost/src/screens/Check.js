@@ -13,23 +13,8 @@ class JobCard extends Component{
     constructor(props){
         super(props);
         this.state = {
-            curIndex: 0,
             touched: false
         }
-    }
-    okButtonPressed = () => {
-        const people = this.props.people;
-        console.log(this.state.curIndex)
-
-        if(this.state.curIndex < people - 1){
-            this.setState({
-                curIndex : this.state.curIndex + 1,
-                touched : true
-            }) 
-        } else { 
-            console.log("끝!")
-        }
-        this.setState({touched:false}); 
     }
 
     showJobCard = () => {
@@ -41,40 +26,20 @@ class JobCard extends Component{
 
     render(){ 
         const {jobs, names} = this.props;
-        let cards = [];
         console.log(names);
         return(
-
-            <View style = {{flex:1, justifyContent:"center"}}>
-                <View style = { styles.header }>
-                    <Text style = {{fontFamily : 'aNightsOfSillaM',fontSize : 28}} >직업 확인</Text>
-                </View>
-
-                <View style = {{flex : 3, alignItems : "center", justifyContent:"center", borderWidth : 1,}}>
-                    <Text style = {{ fontSize: 15}}>{ names[this.state.curIndex] }의 직업을 확인합니다.</Text>  
-                    <Text>해당 플레이어는 핸드폰을 가져가 혼자 확인해주세요.</Text>  
-                </View>
-
-                <View style = { styles.jobCard }>
-                    <TouchableHighlight underlayColor = {'#9ae0c4'}  onLongPress = {this.showJobCard} onHideUnderlay = {this.hideJobCard }>
-                        <View style = {{borderWidth: 1, minWidth:'70%', minHeight:'70%', alignItems: "center", justifyContent : "center"}}>
-                            {this.state.touched &&  // 위 view 영역이 터치되면 touched가 true가 되서 아래 텍스트가 보임.
-                            <View style = {{alignItems: "center"}}>
-                                <Text style = { styles.t }>당신의 직업은</Text>
-                                <Text style = { styles.t }>{ jobs[this.state.curIndex] }</Text>
-                                <Text style = { styles.t }>입니다</Text>
-                            </View>}
-                        </View>
-                    </TouchableHighlight>
-                </View> 
-
-                <View  style = { styles.btn } >
-                    <Button style = {styles.OK} onPress = {this.okButtonPressed}>
-                        <Text>다음</Text>
-                        <Text> ({this.state.curIndex+1}/{this.props.people}) </Text>
-                    </Button>
-                </View>
-            </View>
+            <View style = { styles.jobCard }>
+                <TouchableHighlight underlayColor = {'#9ae0c4'}  onLongPress = {this.showJobCard} onHideUnderlay = {this.hideJobCard }>
+                    <View style = {{borderWidth: 1, minWidth:'70%', minHeight:'70%', alignItems: "center", justifyContent : "center"}}>
+                        {this.state.touched &&  // 위 view 영역이 길게 터치되면 touched가 true가 되서 아래 텍스트가 보임.
+                        <View style = {{alignItems: "center"}}>
+                            <Text style = { styles.t }>당신의 직업은</Text>
+                            <Text style = { styles.t }>{ jobs[this.props.index] }</Text>
+                            <Text style = { styles.t }>입니다</Text>
+                        </View>}
+                    </View>
+                </TouchableHighlight>
+            </View> 
         )
     }
 }
@@ -82,14 +47,50 @@ class JobCard extends Component{
 export default withSetting(class Check extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            curIndex: 0,
+        }
     }
+    okButtonPressed = () => {
+        const people = this.props.settings.people;
+        console.log(this.state.curIndex)
+
+        if(this.state.curIndex < people - 1){
+            this.setState({
+                curIndex : this.state.curIndex+1
+            }) 
+            this.setState({touched:false}); 
+        } else { 
+            this.props.navigation.navigate('nightScreen');
+        }
+    }
+
     render(){
         return(
-            <JobCard // 여기서 JobCard에 정보 넘김
-                jobs = { this.props.settings.jobs }
-                names = { this.props.settings.names }
-                people = { this.props.settings.people }
-            ></JobCard>
+            <View style = {{flex:1, justifyContent:"center"}}>
+                <View style = { styles.header }>
+                    <Text style = {{fontFamily : 'aNightsOfSillaM',fontSize : 28}} >직업 확인</Text>
+                </View>
+
+                <View style = {{flex : 3, alignItems : "center", justifyContent:"center", borderWidth : 1,}}>
+                    <Text style = {{ fontSize: 15}}>{ this.props.settings.names[this.state.curIndex] }의 직업을 확인합니다.</Text>  
+                    <Text>해당 플레이어는 핸드폰을 가져가 혼자 확인해주세요.</Text>  
+                </View>
+
+                <JobCard // 여기서 JobCard에 정보 넘김
+                    jobs = { this.props.settings.jobs }
+                    index = {this.state.curIndex}
+                    names = { this.props.settings.names }
+                    people = { this.props.settings.people }
+                ></JobCard>
+
+                <View  style = { styles.btn } >
+                    <Button style = {styles.OK} onPress = {this.okButtonPressed}>
+                        <Text>다음</Text>
+                        <Text> ({this.state.curIndex+1}/{this.props.settings.people}) </Text>
+                    </Button>
+                </View>
+            </View>
         )
     }
 })

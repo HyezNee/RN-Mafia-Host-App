@@ -5,6 +5,7 @@ import welcomeScreen from './Welcome'
 import nameScreen from './Name';
 import jobScreen from './Job';
 import checkScreen from './Check';
+import nightScreen from './Night';
 
 
 const MyApp = createStackNavigator(
@@ -32,8 +33,14 @@ const MyApp = createStackNavigator(
             navigationOptions: ({navigation}) => ({
                 header: null,   // 상단 탭 제거
             }),
-        }
-    },
+        },
+        nightScreen: {
+            screen: nightScreen,
+            navigationOptions: ({navigation}) => ({
+                header: null,   // 상단 탭 제거
+            }),
+        },
+    },  
     /*{
         navigationOptions: ({navigation}) => ({
             header: null,

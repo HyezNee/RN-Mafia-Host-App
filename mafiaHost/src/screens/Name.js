@@ -15,34 +15,19 @@ export default withSetting(class Name extends React.Component {
             // localName: [],
             text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
         }
-        this.localName= [];
+        this.localName = [];
+        // this.localName = [1,2,3,4]; // 테스트 편하게 ㅎㅎ
     }
-    // namesInput = []; // 각 플레이어의 이름 입력이 들어가는 배열
-    // confirmTextInput = idx => { // 텍스트 입력이 끝날시 실행되는 함수
-    //     // this.props.onChangeSetting('names', [...this.props.settings.names, text])   // 전역변수 names[]값 수정(새 text가 넣어진 채로)
-    //     // 
-    //     this.state.localName[idx] = this.state.text;
-    //     this.setState({
-    //         text: ''
-    //     })
-    // }
 
     showAlert = () => {
         Alert.alert('알림','모든 이름을 입력해주세요!',[{text: '확인'}])
     }
     typingText = (text,i) => {        
-        // let arr = this.state.localName;
-        // arr[i] = text;
-        // this.setState({
-            //     localName: arr
-            // })
-        // console.log(this.state.localName);
         this.localName[i] = text;
         this.props.onChangeSetting('names', this.localName);
 
     }
     _navigate(){
-        // this.props.onChangeSetting('names', this.state.localName);
         console.log(this.props.settings.names)
         if(this.props.settings.names.length == this.props.settings.people){
             console.log("1if");
