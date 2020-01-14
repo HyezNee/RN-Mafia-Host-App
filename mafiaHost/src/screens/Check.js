@@ -107,10 +107,7 @@ const styles = StyleSheet.create({
         justifyContent : "center",
         borderWidth : 1,
     },
-    t : {
-        fontFamily : 'aNightsOfSillaM',
-        fontSize : 28,      
-    },
+
     btn : {
         flex : 3,
         flexDirection: 'row',

@@ -15,8 +15,8 @@ export default withSetting(class Name extends React.Component {
             // localName: [],
             text: '' // 이름 텍스트 입력이 실시간으로 바뀌는걸 보여주기 위해서 state 사용
         }
-        this.localName = [];
-        // this.localName = [1,2,3,4]; // 테스트 편하게 ㅎㅎ
+        // this.localName = [];
+        this.localName = [1,2,3,4]; // 테스트 편하게 ㅎㅎ
     }
 
     showAlert = () => {
