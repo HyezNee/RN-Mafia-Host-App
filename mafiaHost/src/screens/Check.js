@@ -5,7 +5,6 @@ import { Button } from 'native-base';
 
 /*
 추가해야되는 작업
-1. 다음 페이지로 넘어가게 설정 
 2. 직업 확인시 혹은 다음 버튼 클릭시 소리 추가하면 좋을듯
 3. 스타일링 깔끔하게..
  */
@@ -51,7 +50,7 @@ export default withSetting(class Check extends React.Component{
             curIndex: 0,
         }
     }
-    okButtonPressed = () => {
+    nextButtonPressed = () => {
         const people = this.props.settings.people;
         console.log(this.state.curIndex)
 
@@ -85,7 +84,7 @@ export default withSetting(class Check extends React.Component{
                 ></JobCard>
 
                 <View  style = { styles.btn } >
-                    <Button style = {styles.OK} onPress = {this.okButtonPressed}>
+                    <Button style = {styles.OK} onPress = {this.nextButtonPressed}>
                         <Text>다음</Text>
                         <Text> ({this.state.curIndex+1}/{this.props.settings.people}) </Text>
                     </Button>
