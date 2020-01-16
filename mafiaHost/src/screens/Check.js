@@ -32,9 +32,7 @@ class JobCard extends Component{
                     <View style = {{borderWidth: 1, minWidth:'70%', minHeight:'70%', alignItems: "center", justifyContent : "center"}}>
                         {this.state.touched &&  // 위 view 영역이 길게 터치되면 touched가 true가 되서 아래 텍스트가 보임.
                         <View style = {{alignItems: "center"}}>
-                            <Text style = { styles.t }>당신의 직업은</Text>
-                            <Text style = { styles.t }>{ jobs[this.props.index] }</Text>
-                            <Text style = { styles.t }>입니다</Text>
+                            <Text style = {{fontFamily: 'aNightsOfSillaM', fontSize : 24}}>당신의 직업은 { jobs[this.props.index] } 입니다</Text>
                         </View>}
                     </View>
                 </TouchableHighlight>
